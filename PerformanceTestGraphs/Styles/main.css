@@ -1,0 +1,57 @@
+﻿.sunny
+{
+    font-family: Verdana,Arial,sans-serif;
+    font-size: small;
+}
+
+.center {
+    text-align: center;  
+}
+
+.chart {
+    width:900px;
+    height:500px;
+    text-align: center;
+    margin-left: 32px
+}
+
+.chartWrapper {
+    margin: 0 auto; 
+    width: 922px;
+    height:500px;
+}
+
+.y-label {
+    width: 22px;
+    float:left;
+    margin-top:50px;
+    margin-right:10px;
+}
+
+.legend {
+    text-align: left;    
+}
+
+#tdTimeTaken, #tdLastPrimeFound {
+    color: #FF6347;
+    font-weight: bold;
+}
+
+#soeTimeTaken, #soeLastPrimeFound {
+    color: #1E90FF;
+    font-weight: bold;
+}
+
+#limit {
+    background-color: #FFF8DC;    
+    border: 1px solid black;
+    padding: 2px;
+}
+
+.message {
+    padding-top: 10px;
+}
+
+.ui-button-icon-only .ui-button-text, .ui-button-icons-only .ui-button-text {
+    padding: 0px;
+}

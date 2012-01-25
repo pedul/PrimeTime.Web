@@ -1,0 +1,1 @@
+﻿<%@ ServiceHost Language="C#" Debug="true" Service="PerformanceTestGraphs.Services.SieveOfEratosthenes" CodeBehind="SieveOfEratosthenes.svc.cs" %>

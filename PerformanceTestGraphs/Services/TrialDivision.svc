@@ -1,0 +1,1 @@
+﻿<%@ ServiceHost Language="C#" Debug="true" Service="PerformanceTestGraphs.Services.TrialDivision" CodeBehind="TrialDivision.svc.cs" %>
