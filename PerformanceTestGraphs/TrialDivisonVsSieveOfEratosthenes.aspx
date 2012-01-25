@@ -18,7 +18,7 @@
             <h1>Trial Division Vs Sieve of Eratosthenes</h1>
         
             <label for="tags">Find all primes less than or equal to </label>
-	        <input id="limit" value="2500"/> 
+	        <input id="limit" value="5000"/> 
             <button id="test">Test</button>
             <img id="waitWheel" src="Styles/images/wait-wheel.gif" alt="processing..."/>
             <div class="message">
