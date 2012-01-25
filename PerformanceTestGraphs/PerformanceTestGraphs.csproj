@@ -36,8 +36,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="PrimeTimeLibrary">
-      <HintPath>..\..\PrimeTime\PrimeTimeLibrary\bin\Release\PrimeTimeLibrary.dll</HintPath>
+    <Reference Include="PrimeTimeLibrary, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\PrimeTimeLibrary.dll</HintPath>
     </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
