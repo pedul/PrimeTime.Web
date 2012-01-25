@@ -16,7 +16,6 @@ UpgradeLog.XML
 _UpgradeReport_Files/
 # Directories #
 ###############
-bin/
 obj/
 TestResults/
 TestResult.xml
