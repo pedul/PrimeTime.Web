@@ -19,19 +19,17 @@ namespace PerformanceTestGraphs.Services
         public Performance GetPerformance(TestConstraint testConstraints)
         {                        
             var trialDivison = new TrialDivisionByPrimes();
-            
-            Stopwatch sw = new Stopwatch();
-            sw.Start();
 
+            Stopwatch sw = Stopwatch.StartNew();           
             var primes = trialDivison.Primes.TakeWhile(p => p <= testConstraints.Limit).ToList();
-            long timeTaken = sw.ElapsedMilliseconds;
+            sw.Stop();
 
             return new Performance
             {
                 RangeLimit = testConstraints.Limit,
                 NoPrimesFound = primes.LongCount(),
                 LastPrimeFound = primes.LastOrDefault(),
-                TimeTaken = timeTaken
+                TimeTaken = sw.ElapsedMilliseconds
             };
         }
     }

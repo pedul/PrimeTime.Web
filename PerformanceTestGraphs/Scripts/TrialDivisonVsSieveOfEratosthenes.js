@@ -3,9 +3,9 @@
 var trialDivisionValues = [];
 var sieveOfEraValues = [];
 var clicksYet = false;
-var searchRange = 0;
-var tdRangeScanned = 0;
-var soeRangeScanned = 0;
+var noRequestSent = 0;
+var tdNoResponseReceived = 0;
+var soeNoResponseReceived = 0;
 var somethingBadHappened = false;
 
 $(function () {
@@ -16,10 +16,11 @@ $(function () {
 function testPerformance() {
 
     somethingBadHappened = false;
+    noRequestSent = 0;
 
-    var maxLimit = parseInt(getLimitTextBox().val());    
+    var maxLimit = parseInt(getLimitTextBox().val());
 
-    if (isNaN(maxLimit) || maxLimit < 0) {
+    if (isNaN(maxLimit) || maxLimit <= 0) {
         alert('Please enter a valid limit (whole number)');
         return false;
     }
@@ -30,7 +31,7 @@ function testPerformance() {
     trialDivisionValues = [];
     sieveOfEraValues = [];
 
-    startWheel(maxLimit);
+    startWheel(minLimit, maxLimit, increment);
 
     for (var i = minLimit; i <= maxLimit; i += increment) {
         var constraint = { Limit: i, Increment: 0 };
@@ -48,11 +49,11 @@ function testPerformance() {
       
 function getPerformanceFromServer(constraint) {
     PrimeTime.Services.TrialDivision.GetPerformance(constraint, trialDivisionSuccess, onFail);
-    PrimeTime.Services.SieveOfEratosthenes.GetPerformance(constraint, sieveOfEratosthenesSuccess, onFail);
+    PrimeTime.Services.SieveOfEratosthenes.GetPerformance(constraint, sieveOfEratosthenesSuccess, onFail);    
 }
 
-function trialDivisionSuccess(result) {
-    tdRangeScanned = result.RangeLimit;
+function trialDivisionSuccess(result) {    
+    tdNoResponseReceived++;
     checkIfComplete(result);
 
     trialDivisionValues.push([result.NoPrimesFound, result.TimeTaken]);
@@ -60,8 +61,8 @@ function trialDivisionSuccess(result) {
     plotComparison();
 }
 
-function sieveOfEratosthenesSuccess(result) {
-    soeRangeScanned = result.RangeLimit;
+function sieveOfEratosthenesSuccess(result) {    
+    soeNoResponseReceived++;
     checkIfComplete(result);
 
     sieveOfEraValues.push([result.NoPrimesFound, result.TimeTaken]);
@@ -70,14 +71,17 @@ function sieveOfEratosthenesSuccess(result) {
 }
 
 function checkIfComplete(result) {
-    if ((tdRangeScanned === searchRange) && (soeRangeScanned === searchRange)) {
+    if ((tdNoResponseReceived === noRequestSent) && (soeNoResponseReceived === noRequestSent)) {
         resetWheel();
     }
 }
 
 function updateMessage(timeLabel, lastPrimeLabel, result) {
-    timeLabel.text(result.TimeTaken);
-    lastPrimeLabel.text(result.LastPrimeFound);
+    var alreadyFoundPrime = parseInt(lastPrimeLabel.text());
+    if (isNaN(alreadyFoundPrime) || alreadyFoundPrime < result.LastPrimeFound) {
+        timeLabel.text(result.TimeTaken);
+        lastPrimeLabel.text(result.LastPrimeFound);
+    }
 }
 
 function plotComparison() {
@@ -176,10 +180,24 @@ function onFail(xhr, status, error) {
     resetWheel();    
 }
 
-function startWheel(maxLimit) {
-    searchRange = maxLimit;
-    tdRangeScanned = 0;
-    soeRangeScanned = 0;
+function startWheel(minLimit, maxLimit, increment) {
+    
+    if (maxLimit <= minLimit) {
+        noRequestSent = 1;
+    }
+    else {
+        noRequestSent = (Math.floor((maxLimit - minLimit) / increment)) + 1;
+        if ((maxLimit - minLimit) % increment > 0)
+            noRequestSent++;
+    }
+
+    getTrialDivisionTimeTakenLabel().text("-");
+    getTrialDivisonLastPrimeFoundLabel().text("-");
+    getSieveTimeTakenLabel().text("-");
+    getSieveLastPrimeFoundLabel().text("-");
+
+    tdNoResponseReceived = 0;
+    soeNoResponseReceived = 0;
 
     getTestButton().hide()
     getLimitTextBox().prop("disabled", true);

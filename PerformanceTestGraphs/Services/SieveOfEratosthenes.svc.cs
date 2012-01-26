@@ -19,18 +19,16 @@ namespace PerformanceTestGraphs.Services
         {            
             var soe = new PrimeTime.SieveOfEratosthenes(testConstraints.Limit);
 
-            Stopwatch sw = new Stopwatch();
-            sw.Start();
-
+            Stopwatch sw = Stopwatch.StartNew();           
             var primes = soe.Primes.ToList();
-            long timeTaken = sw.ElapsedMilliseconds;            
+            sw.Stop();
 
             return new Performance
             {
                 RangeLimit = testConstraints.Limit,
                 NoPrimesFound = primes.LongCount(),
                 LastPrimeFound = primes.LastOrDefault(),
-                TimeTaken = timeTaken
+                TimeTaken = sw.ElapsedMilliseconds
             };
         }
     }
